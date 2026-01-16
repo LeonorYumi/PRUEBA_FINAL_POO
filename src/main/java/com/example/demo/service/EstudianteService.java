@@ -21,7 +21,7 @@ public class EstudianteService {
         return estudianteRepository.save(estudiante);
     }
 
-    // Buscar por ID (AQUÍ SE LANZA EL ERROR)
+    // Buscar por ID
     public Estudiante obtenerPorId(Long id) {
         return estudianteRepository.findById(id)
                 .orElseThrow(() ->
