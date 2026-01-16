@@ -5,13 +5,19 @@ import com.example.demo.repository.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EstudianteService {
 
     @Autowired
-    private EstudianteRepository repository;
+    private EstudianteRepository estudianteRepository;
+
+    public List<Estudiante> listarTodos() {
+        return estudianteRepository.findAll();
+    }
 
     public Estudiante guardar(Estudiante estudiante) {
-        return repository.save(estudiante);
+        return estudianteRepository.save(estudiante);
     }
 }
