@@ -1,5 +1,5 @@
 package com.example.demo.controller;
-
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Estudiante;
 import com.example.demo.service.EstudianteService;
 import jakarta.validation.Valid;
@@ -31,5 +31,10 @@ public class EstudianteController {
     public Estudiante obtenerPorId(@PathVariable Long id) {
         return estudianteService.obtenerPorId(id);
     }
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public String manejarError(ResourceNotFoundException e) {
+        return e.getMessage();
+
+        }
 
 }
