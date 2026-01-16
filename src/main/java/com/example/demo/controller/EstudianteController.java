@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-//recibe peticiones
+
+//Recibe peticiones
 @RestController
 @RequestMapping("/api/estudiantes")
 public class EstudianteController {
@@ -15,6 +16,7 @@ public class EstudianteController {
     @Autowired
     private EstudianteService estudianteService;
 
+    //CRUD
     // Listar
     @GetMapping
     public List<Estudiante> listar() {
@@ -36,5 +38,4 @@ public class EstudianteController {
         return e.getMessage();
 
         }
-
 }
