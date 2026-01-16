@@ -12,7 +12,6 @@ public class EstudianteService {
 
     @Autowired
     private EstudianteRepository estudianteRepository;
-
     public List<Estudiante> listarTodos() {
         return estudianteRepository.findAll();
     }
