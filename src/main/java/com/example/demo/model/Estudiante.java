@@ -6,33 +6,38 @@ import jakarta.validation.constraints.*;
 @Entity
 @Table(name = "estudiantes")
 public class Estudiante {
-//id
+//ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//cedula
+
+//Cedula
     @NotBlank(message = "La cédula es obligatoria")
     @Size(min = 10, max = 10, message = "La cédula debe tener 10 dígitos")
     @Column(unique = true)
     private String cedula;
-//nombre
+
+//Nombre
     @NotBlank(message = "El nombre es obligatorio")
     @Size(min = 2, max = 50)
     private String nombre;
-//correo
+
+//Correo
     @NotBlank
     @Email(message = "Correo no válido")
     private String email;
-//edad
+
+//Edad
     @NotNull
     @Min(16)
     @Max(60)
     private Integer edad;
-//carrera
+
+//Carrera
     @NotBlank
     private String carrera;
 
-    // Constructor vacío
+
     public Estudiante() {}
 
     // GETTERS Y SETTERS
