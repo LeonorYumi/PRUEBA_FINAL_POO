@@ -8,9 +8,8 @@ import java.util.Optional;
 //Acesso a la bd
 @Repository
 public interface EstudianteRepository extends JpaRepository<Estudiante, Long> {
-    // Agrega este método para buscar por cédula
+    // metodo para buscar por cédula
     Optional<Estudiante> findByCedula(String cedula);
 
-    // Opcional: Si solo necesitas verificar existencia
     boolean existsByCedula(String cedula);
 }
