@@ -1,14 +1,15 @@
 package com.example.demo.controller;
-import com.example.demo.exception.ResourceNotFoundException;
+
 import com.example.demo.model.Estudiante;
 import com.example.demo.service.EstudianteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-//Recibe peticiones
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/estudiantes")
 public class EstudianteController {
@@ -16,26 +17,40 @@ public class EstudianteController {
     @Autowired
     private EstudianteService estudianteService;
 
-    //CRUD
-    // Listar
+    // LISTAR TODOS
     @GetMapping
-    public List<Estudiante> listar() {
-        return estudianteService.listarTodos();
+    public ResponseEntity<List<Estudiante>> listarTodos() {
+        List<Estudiante> estudiantes = estudianteService.listarTodos();
+        return ResponseEntity.ok(estudiantes);
     }
 
-    // Crear
-    @PostMapping
-    public Estudiante crear(@Valid @RequestBody Estudiante estudiante) {
-        return estudianteService.guardar(estudiante);
-    }
-
+    // OBTENER POR ID
     @GetMapping("/{id}")
-    public Estudiante obtenerPorId(@PathVariable Long id) {
-        return estudianteService.obtenerPorId(id);
+    public ResponseEntity<Estudiante> obtenerPorId(@PathVariable Long id) {
+        Estudiante estudiante = estudianteService.obtenerPorId(id);
+        return ResponseEntity.ok(estudiante);
     }
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public String manejarError(ResourceNotFoundException e) {
-        return e.getMessage();
 
-        }
+    //CREAR NUEVO
+    /*@PostMapping
+    public ResponseEntity<Estudiante> crearEstudiante(@Valid @RequestBody Estudiante estudiante) {
+        Estudiante nuevoEstudiante = estudianteService.guardar(estudiante);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoEstudiante);
+    }
+
+    //ACTUALIZAR
+    @PutMapping("/{id}")
+    public ResponseEntity<Estudiante> actualizarEstudiante(
+            @PathVariable Long id,
+            @Valid @RequestBody Estudiante estudiante) {
+        Estudiante actualizado = estudianteService.actualizar(id, estudiante);
+        return ResponseEntity.ok(actualizado);
+    }*/
+
+    //ELIMINAR
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarEstudiante(@PathVariable Long id) {
+        estudianteService.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
