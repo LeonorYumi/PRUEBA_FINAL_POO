@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Académica</title>
+    <style>
+        /* ESTILOS DE DISEÑO (CSS) */
+        :root {
+            --primary-color: #1a3a5a;
+            --accent-color: #3498db;
+            --bg-color: #f4f7f6;
+            --border-color: #dcdde1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            padding: 40px 20px;
+            color: #2f3640;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        /* ENCABEZADO */
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* CUERPO DEL PANEL */
+        .content {
+            padding: 30px;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f1f1;
+            text-transform: uppercase;
+        }
+
+        /* FORMULARIO ESTILO GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #636e72;
+        }
+
+        .input-group input {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* BOTÓN */
+        .btn-submit {
+            grid-column: 1 / -1;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        /* TABLA DE DATOS */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            padding: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 0.95rem;
+        }
+
+        /* ESTADO VACÍO */
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #b2bec3;
+            font-style: italic;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>GESTIÓN DE ESTUDIANTES</h1>
+        <p>Panel de Administración Universitaria</p>
+    </header>
+
+    <div class="content">
+        <h2>Formulario de Inscripción</h2>
+        <form id="estudianteForm">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Cédula de Identidad</label>
+                    <input type="text" id="cedula" placeholder="Ej: 17xxxxxx">
+                </div>
+                <div class="input-group">
+                    <label>Nombres Completos</label>
+                    <input type="text" id="nombre" placeholder="Nombre y Apellido">
+                </div>
+                <div class="input-group">
+                    <label>Correo Institucional</label>
+                    <input type="email" id="email" placeholder="correo@universidad.edu">
+                </div>
+                <div class="input-group">
+                    <label>Carrera</label>
+                    <input type="text" id="carrera" placeholder="Ej: Ingeniería">
+                </div>
+                <div class="input-group">
+                    <label>Edad</label>
+                    <input type="number" id="edad" placeholder="00">
+                </div>
+                <button type="button" class="btn-submit">Registrar Estudiante</button>
+            </div>
+        </form>
+
+        <h2>Listado de Estudiantes</h2>
+        <div class="table-wrapper">
+            <table id="tablaEstudiantes">
+                <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Carrera</th>
+                    <th>Email</th>
+                    <th>Edad</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="listaCuerpo">
+                <tr>
+                    <td colspan="6" class="empty-message">Esperando datos de la API...</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    const url = "http://localhost:8080/api/estudiantes";
+    let editandoId = null; // Variable para saber si estamos creando o editando
+
+    // 1. CARGAR/LEER (READ)
+    function cargarEstudiantes() {
+        fetch(url)
+            .then(res => res.json())
+            .then(datos => {
+                const tabla = document.getElementById("listaCuerpo");
+                tabla.innerHTML = "";
+                datos.forEach(est => {
+                    tabla.innerHTML += `
+                        <tr>
+                            <td>${est.cedula}</td>
+                            <td>${est.nombre}</td>
+                            <td>${est.carrera}</td>
+                            <td>${est.email}</td>
+                            <td>${est.edad}</td>
+                            <td>
+                                <button onclick="prepararEdicion(${JSON.stringify(est).replace(/"/g, '&quot;')})" style="color:blue; cursor:pointer; margin-right:10px;">Editar</button>
+                                <button onclick="borrarEstudiante(${est.id})" style="color:red; cursor:pointer;">Eliminar</button>
+                            </td>
+                        </tr>`;
+                });
+            });
+    }
+
+    // 2. PREPARAR EDICIÓN (Cargar datos al formulario)
+    function prepararEdicion(estudiante) {
+        document.getElementById("cedula").value = estudiante.cedula;
+        document.getElementById("nombre").value = estudiante.nombre;
+        document.getElementById("email").value = estudiante.email;
+        document.getElementById("carrera").value = estudiante.carrera;
+        document.getElementById("edad").value = estudiante.edad;
+
+        editandoId = estudiante.id; // Guardamos el ID que vamos a actualizar
+        document.querySelector(".btn-submit").innerText = "Actualizar Estudiante";
+        document.querySelector(".btn-submit").style.backgroundColor = "#f39c12";
+    }
+
+    // 3. GUARDAR O ACTUALIZAR (CREATE / UPDATE)
+    document.querySelector(".btn-submit").addEventListener("click", function() {
+        const datosEstudiante = {
+            cedula: document.getElementById("cedula").value,
+            nombre: document.getElementById("nombre").value,
+            email: document.getElementById("email").value,
+            carrera: document.getElementById("carrera").value,
+            edad: parseInt(document.getElementById("edad").value)
+        };
+
+        // Si editandoId tiene algo, usamos PUT (Actualizar), si no POST (Crear)
+        const metodo = editandoId ? 'PUT' : 'POST';
+        const urlFinal = editandoId ? `${url}/${editandoId}` : url;
+
+        fetch(urlFinal, {
+            method: metodo,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datosEstudiante)
+        })
+        .then(res => {
+            if(res.ok) {
+                alert(editandoId ? "Actualizado correctamente" : "Registrado correctamente");
+                resetearFormulario();
+                cargarEstudiantes();
+            }
+        });
+    });
+
+    // 4. BORRAR (DELETE)
+    function borrarEstudiante(id) {
+        if(confirm("¿Seguro que quieres eliminarlo?")) {
+            fetch(`${url}/${id}`, { method: 'DELETE' })
+                .then(() => cargarEstudiantes());
+        }
+    }
+
+    function resetearFormulario() {
+        document.getElementById("estudianteForm").reset();
+        editandoId = null;
+        document.querySelector(".btn-submit").innerText = "Registrar Estudiante";
+        document.querySelector(".btn-submit").style.backgroundColor = "#3498db";
+    }
+
+    window.onload = cargarEstudiantes;
+</script>
+</body>
+</html>
