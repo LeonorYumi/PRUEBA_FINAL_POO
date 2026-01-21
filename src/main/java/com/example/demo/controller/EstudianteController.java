@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Estudiante;
+import com.example.demo.entity.Estudiante;
 import com.example.demo.service.EstudianteService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +30,7 @@ public class EstudianteController {
     }
 
     //CREAR NUEVO
-    /*@PostMapping
+    @PostMapping
     public ResponseEntity<Estudiante> crearEstudiante(@Valid @RequestBody Estudiante estudiante) {
         Estudiante nuevoEstudiante = estudianteService.guardar(estudiante);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoEstudiante);
@@ -45,7 +43,7 @@ public class EstudianteController {
             @Valid @RequestBody Estudiante estudiante) {
         Estudiante actualizado = estudianteService.actualizar(id, estudiante);
         return ResponseEntity.ok(actualizado);
-    }*/
+    }
 
     //ELIMINAR
     @DeleteMapping("/{id}")

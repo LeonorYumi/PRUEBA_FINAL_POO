@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Estudiante;
+import com.example.demo.entity.Estudiante;
 import com.example.demo.repository.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class EstudianteService {
     }
 
     //GUARDAR
-    /*public Estudiante guardar(Estudiante estudiante) {
+    public Estudiante guardar(Estudiante estudiante) {
         return estudianteRepository.save(estudiante);  // Spring maneja el error
     }
 
@@ -30,7 +30,7 @@ public class EstudianteService {
         return estudianteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Estudiante no encontrado con id: " + id));
-    }*/
+    }
 
     // ACTUALIZAR
     @Transactional

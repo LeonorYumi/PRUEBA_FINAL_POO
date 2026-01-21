@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     }
 
     // MANEJA ERROR DE CÉDULA DUPLICADA - ¡AGREGA ESTO!
-    /*@ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> handleCedulaDuplicada(DataIntegrityViolationException ex) {
         Map<String, String> error = new HashMap<>();
 
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
         error.put("detalle", "No se puede guardar porque la cédula ya existe");
 
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-    }*/
+    }
 
     // ERROR 500: Error interno del servidor
     @ExceptionHandler(Exception.class)
