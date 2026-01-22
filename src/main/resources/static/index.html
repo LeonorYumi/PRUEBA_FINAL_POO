@@ -3,267 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gestión Académica</title>
+    <title>Instituto | Gestión Académica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
     <style>
-        /* ESTILOS DE DISEÑO (CSS) */
         :root {
-            --primary-color: #1a3a5a;
-            --accent-color: #3498db;
-            --bg-color: #f4f7f6;
-            --border-color: #dcdde1;
+            --primary: #6d5dfc;
+            --primary-soft: #8e82ff;
+            --accent: #f0edff;
+            --dark: #2d3436;
+            --text-muted: #636e72;
+            --danger: #ff7675;
+            --warning: #f39c12; /* Naranja de advertencia/edición */
+            --white: #ffffff;
+            --bg: #f8f9fd;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg); color: var(--dark); padding: 2rem 1rem; }
+        .container { max-width: 1100px; margin: 0 auto; }
 
-        body {
-            background-color: var(--bg-color);
-            padding: 40px 20px;
-            color: #2f3640;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-
-        /* ENCABEZADO */
+        /* Encabezado */
         .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 30px;
+            background: linear-gradient(135deg, #6d5dfc 0%, #a29bfe 100%);
+            color: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 24px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(109, 93, 252, 0.15);
+            margin-bottom: 2rem;
         }
 
-        .header h1 {
-            font-size: 1.8rem;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+        .header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+
+        /* Tarjeta Principal */
+        .main-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
         }
 
-        .header p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* CUERPO DEL PANEL */
-        .content {
-            padding: 30px;
-        }
-
-        h2 {
-            font-size: 1.1rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f1f1;
-            text-transform: uppercase;
-        }
-
-        /* FORMULARIO ESTILO GRID */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        .input-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #636e72;
+        .form-container {
+            background: var(--accent);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
         }
+
+        .form-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .col-30 { flex: 0 0 calc(30% - 1rem); min-width: 200px; }
+        .col-40 { flex: 0 0 calc(40% - 1rem); min-width: 250px; }
+        .col-20 { flex: 0 0 calc(20% - 1rem); min-width: 100px; }
+        .col-full { flex: 0 0 100%; }
+
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .input-group label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
 
         .input-group input {
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            outline: none;
-            transition: border 0.3s;
-        }
-
-        .input-group input:focus {
-            border-color: var(--accent-color);
-        }
-
-        /* BOTÓN */
-        .btn-submit {
-            grid-column: 1 / -1;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-
-        .btn-submit:hover {
-            background-color: #2980b9;
-        }
-
-        /* TABLA DE DATOS */
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            padding: 15px;
-            color: var(--primary-color);
-            font-weight: 600;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #f1f1f1;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid transparent;
+            border-radius: 12px;
             font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: all 0.3s;
         }
 
-        /* ESTADO VACÍO */
-        .empty-message {
-            text-align: center;
-            padding: 40px;
-            color: #b2bec3;
-            font-style: italic;
+        .input-group input:focus { border-color: var(--primary-soft); outline: none; background: white; }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.7rem;
+            transition: 0.3s;
+            margin-top: 1rem;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        /* Tabla */
+        .table-wrapper { border-radius: 16px; overflow-x: auto; border: 1px solid #eee; margin-top: 1rem; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { background: #fafbff; padding: 1.2rem; text-align: left; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        td { padding: 1.2rem; border-top: 1px solid #f8f9fb; font-size: 0.9rem; }
+
+        .badge { background: #efecff; color: var(--primary); padding: 0.3rem 0.7rem; border-radius: 8px; font-weight: 600; }
+
+        .btn-action { width: 35px; height: 35px; border-radius: 8px; border: none; cursor: pointer; margin-right: 5px; }
+        .btn-edit { background: #fff4e5; color: var(--warning); }
+        .btn-delete { background: #ffebeb; color: var(--danger); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header class="header">
-        <h1>GESTIÓN DE ESTUDIANTES</h1>
-        <p>Panel de Administración Universitaria</p>
+        <h1><i class="fa-solid fa-graduation-cap"></i> GESTIÓN DE ESTUDIANTES</h1>
+        <p>Panel Administrativo Institucional • API Spring Boot </p>
     </header>
 
-    <div class="content">
-        <h2>Formulario de Inscripción</h2>
-        <form id="estudianteForm">
-            <div class="form-grid">
-                <div class="input-group">
-                    <label>Cédula de Identidad</label>
-                    <input type="text" id="cedula" placeholder="Ej: 17xxxxxx">
-                </div>
-                <div class="input-group">
-                    <label>Nombres Completos</label>
-                    <input type="text" id="nombre" placeholder="Nombre y Apellido">
-                </div>
-                <div class="input-group">
-                    <label>Correo Institucional</label>
-                    <input type="email" id="email" placeholder="correo@universidad.edu">
-                </div>
-                <div class="input-group">
-                    <label>Carrera</label>
-                    <input type="text" id="carrera" placeholder="Ej: Ingeniería">
-                </div>
-                <div class="input-group">
-                    <label>Edad</label>
-                    <input type="number" id="edad" placeholder="00">
-                </div>
-                <button type="button" class="btn-submit">Registrar Estudiante</button>
-            </div>
-        </form>
+    <div class="main-card">
+        <div class="section-title">
+            <i class="fa-solid fa-user-plus"></i> Admisión y Registro
+        </div>
 
-        <h2>Listado de Estudiantes</h2>
+        <div class="form-container">
+            <form id="estudianteForm">
+                <div class="form-grid">
+                    <div class="input-group col-30">
+                        <label>Identificación</label>
+                        <input type="text" id="cedula" placeholder="Cédula" required>
+                    </div>
+                    <div class="input-group col-40">
+                        <label>Nombres Completos</label>
+                        <input type="text" id="nombre" placeholder="Apellidos y Nombres" required>
+                    </div>
+                    <div class="input-group col-30">
+                        <label>Edad</label>
+                        <input type="number" id="edad" min="16" max="60" placeholder="16-60">
+                    </div>
+                    <div class="input-group col-40">
+                        <label>Correo Institucional</label>
+                        <input type="email" id="email" placeholder="correo@instituto.edu.ec" required>
+                    </div>
+                    <div class="input-group col-40">
+                        <label>Programa Académico</label>
+                        <input type="text" id="carrera" placeholder="Ej: Desarrollo de Software" required>
+                    </div>
+
+                    <div class="col-full">
+                        <button type="button" class="btn-submit" id="btnGuardar">
+                            <i class="fa-solid fa-paper-plane"></i> Confirmar Registro
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="section-title">
+            <i class="fa-solid fa-table-list"></i> Listado Vigente
+        </div>
+
         <div class="table-wrapper">
-            <table id="tablaEstudiantes">
+            <table>
                 <thead>
                 <tr>
                     <th>Cédula</th>
-                    <th>Nombre</th>
-                    <th>Carrera</th>
-                    <th>Email</th>
+                    <th>Estudiante</th>
+                    <th>Programa</th>
+                    <th>Contacto</th>
                     <th>Edad</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
-                <tbody id="listaCuerpo">
-                <tr>
-                    <td colspan="6" class="empty-message">Esperando datos de la API...</td>
-                </tr>
-                </tbody>
+                <tbody id="listaCuerpo"></tbody>
             </table>
         </div>
     </div>
 </div>
+
 <script>
     const url = "http://localhost:8080/api/estudiantes";
-    let editandoId = null; // Variable para saber si estamos creando o editando
+    let editandoId = null;
 
-    // 1. CARGAR/LEER (READ)
-    function cargarEstudiantes() {
-        fetch(url)
-            .then(res => res.json())
-            .then(datos => {
-                const tabla = document.getElementById("listaCuerpo");
-                tabla.innerHTML = "";
-                datos.forEach(est => {
-                    tabla.innerHTML += `
-                        <tr>
-                            <td>${est.cedula}</td>
-                            <td>${est.nombre}</td>
-                            <td>${est.carrera}</td>
-                            <td>${est.email}</td>
-                            <td>${est.edad}</td>
-                            <td>
-                                <button onclick="prepararEdicion(${JSON.stringify(est).replace(/"/g, '&quot;')})" style="color:blue; cursor:pointer; margin-right:10px;">Editar</button>
-                                <button onclick="borrarEstudiante(${est.id})" style="color:red; cursor:pointer;">Eliminar</button>
-                            </td>
-                        </tr>`;
-                });
+    async function cargarEstudiantes() {
+        try {
+            const res = await fetch(url);
+            const datos = await res.json();
+            const tabla = document.getElementById("listaCuerpo");
+            tabla.innerHTML = "";
+            datos.forEach(est => {
+                tabla.innerHTML += `
+                    <tr>
+                        <td style="font-weight:700;">${est.cedula}</td>
+                        <td>${est.nombre}</td>
+                        <td><span class="badge">${est.carrera}</span></td>
+                        <td><small>${est.email}</small></td>
+                        <td>${est.edad} años</td>
+                        <td>
+                            <button onclick='prepararEdicion(${JSON.stringify(est)})' class="btn-action btn-edit"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="borrarEstudiante(${est.id})" class="btn-action btn-delete"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
             });
+        } catch (e) { console.error("API desconectada"); }
     }
 
-    // 2. PREPARAR EDICIÓN (Cargar datos al formulario)
-    function prepararEdicion(estudiante) {
-        document.getElementById("cedula").value = estudiante.cedula;
-        document.getElementById("nombre").value = estudiante.nombre;
-        document.getElementById("email").value = estudiante.email;
-        document.getElementById("carrera").value = estudiante.carrera;
-        document.getElementById("edad").value = estudiante.edad;
+    function prepararEdicion(est) {
+        document.getElementById("cedula").value = est.cedula;
+        document.getElementById("nombre").value = est.nombre;
+        document.getElementById("email").value = est.email;
+        document.getElementById("carrera").value = est.carrera;
+        document.getElementById("edad").value = est.edad;
 
-        editandoId = estudiante.id; // Guardamos el ID que vamos a actualizar
-        document.querySelector(".btn-submit").innerText = "Actualizar Estudiante";
-        document.querySelector(".btn-submit").style.backgroundColor = "#f39c12";
+        editandoId = est.id;
+
+        const btn = document.getElementById("btnGuardar");
+        btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Actualizar Información`;
+        btn.style.backgroundColor = "#f39c12"; // Naranja vibrante
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 3. GUARDAR O ACTUALIZAR (CREATE / UPDATE)
-    document.querySelector(".btn-submit").addEventListener("click", function() {
-        const datosEstudiante = {
+    document.getElementById("btnGuardar").addEventListener("click", async function() {
+        const datos = {
             cedula: document.getElementById("cedula").value,
             nombre: document.getElementById("nombre").value,
             email: document.getElementById("email").value,
@@ -271,37 +238,46 @@
             edad: parseInt(document.getElementById("edad").value)
         };
 
-        // Si editandoId tiene algo, usamos PUT (Actualizar), si no POST (Crear)
+        if(!datos.nombre || !datos.cedula) return Swal.fire('Error', 'Completa los campos', 'error');
+
         const metodo = editandoId ? 'PUT' : 'POST';
         const urlFinal = editandoId ? `${url}/${editandoId}` : url;
 
-        fetch(urlFinal, {
+        const res = await fetch(urlFinal, {
             method: metodo,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datosEstudiante)
-        })
-        .then(res => {
-            if(res.ok) {
-                alert(editandoId ? "Actualizado correctamente" : "Registrado correctamente");
-                resetearFormulario();
-                cargarEstudiantes();
-            }
+            body: JSON.stringify(datos)
         });
+
+        if(res.ok) {
+            Swal.fire('¡Éxito!', editandoId ? 'Datos actualizados' : 'Estudiante registrado', 'success');
+            resetearFormulario();
+            cargarEstudiantes();
+        }
     });
 
-    // 4. BORRAR (DELETE)
-    function borrarEstudiante(id) {
-        if(confirm("¿Seguro que quieres eliminarlo?")) {
-            fetch(`${url}/${id}`, { method: 'DELETE' })
-                .then(() => cargarEstudiantes());
+    async function borrarEstudiante(id) {
+        const result = await Swal.fire({
+            title: '¿Eliminar registro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ff7675',
+            confirmButtonText: 'Sí, borrar'
+        });
+
+        if (result.isConfirmed) {
+            await fetch(`${url}/${id}`, { method: 'DELETE' });
+            cargarEstudiantes();
+            Swal.fire('Borrado', '', 'success');
         }
     }
 
     function resetearFormulario() {
         document.getElementById("estudianteForm").reset();
         editandoId = null;
-        document.querySelector(".btn-submit").innerText = "Registrar Estudiante";
-        document.querySelector(".btn-submit").style.backgroundColor = "#3498db";
+        const btn = document.getElementById("btnGuardar");
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Confirmar Registro`;
+        btn.style.backgroundColor = "#6d5dfc";
     }
 
     window.onload = cargarEstudiantes;

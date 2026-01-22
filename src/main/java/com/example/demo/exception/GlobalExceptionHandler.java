@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    // MANEJA ERROR DE CÉDULA DUPLICADA - ¡AGREGA ESTO!
+    // MANEJA ERROR DE CÉDULA DUPLICADA -
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> handleCedulaDuplicada(DataIntegrityViolationException ex) {
         Map<String, String> error = new HashMap<>();
