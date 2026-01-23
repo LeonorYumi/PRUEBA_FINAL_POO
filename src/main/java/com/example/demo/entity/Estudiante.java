@@ -1,11 +1,11 @@
 package com.example.demo.entity;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "estudiantes")
 public class Estudiante {
+
 //ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,72 +20,63 @@ public class Estudiante {
 //Nombre
     @NotBlank(message = "El nombre es obligatorio")
     @Size(min = 2, max = 50)
+    // Validar solo letras y espacios
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$", message = "El nombre solo debe contener letras")
     private String nombre;
 
 //Correo
-    @NotBlank
+    @NotBlank(message = "El correo es obligatorio")
     @Email(message = "Correo no válido")
     private String email;
 
 //Edad
-    @NotNull
+    @NotNull(message = "La edad es obligatoria")
     @Min(16)
     @Max(60)
     private Integer edad;
 
 //Carrera
-    @NotBlank
+    @NotBlank(message = "La carrera es obligatoria")
+    // Validar solo letras y espacios
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$", message = "La carrera solo debe contener letras")
     private String carrera;
-
 
     public Estudiante() {}
 
     // GETTERS Y SETTERS
     public Long getId() {
-        return id;
-    }
+        return id; }
 
     public void setId(Long id) {
-        this.id = id;
-    }
+        this.id = id; }
 
     public String getCedula() {
-        return cedula;
-    }
+        return cedula; }
 
     public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
+        this.cedula = cedula; }
 
     public String getNombre() {
-        return nombre;
-    }
+        return nombre; }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+        this.nombre = nombre; }
 
     public String getEmail() {
-        return email;
-    }
+        return email; }
 
     public void setEmail(String email) {
-        this.email = email;
-    }
+        this.email = email; }
 
     public Integer getEdad() {
-        return edad;
-    }
+        return edad; }
 
     public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
+        this.edad = edad; }
 
     public String getCarrera() {
-        return carrera;
-    }
+        return carrera; }
 
     public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
+        this.carrera = carrera; }
 }

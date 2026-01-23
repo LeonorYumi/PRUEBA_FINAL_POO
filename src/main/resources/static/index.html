@@ -16,7 +16,7 @@
             --dark: #2d3436;
             --text-muted: #636e72;
             --danger: #ff7675;
-            --warning: #f39c12; /* Naranja de advertencia/edición */
+            --warning: #f39c12;
             --white: #ffffff;
             --bg: #f8f9fd;
         }
@@ -25,7 +25,6 @@
         body { background-color: var(--bg); color: var(--dark); padding: 2rem 1rem; }
         .container { max-width: 1100px; margin: 0 auto; }
 
-        /* Encabezado */
         .header {
             background: linear-gradient(135deg, #6d5dfc 0%, #a29bfe 100%);
             color: var(--white);
@@ -38,7 +37,6 @@
 
         .header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
 
-        /* Tarjeta Principal */
         .main-card {
             background: var(--white);
             padding: 2.5rem;
@@ -71,7 +69,6 @@
 
         .col-30 { flex: 0 0 calc(30% - 1rem); min-width: 200px; }
         .col-40 { flex: 0 0 calc(40% - 1rem); min-width: 250px; }
-        .col-20 { flex: 0 0 calc(20% - 1rem); min-width: 100px; }
         .col-full { flex: 0 0 100%; }
 
         .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -106,7 +103,6 @@
             margin-top: 1rem;
         }
 
-        /* Tabla */
         .table-wrapper { border-radius: 16px; overflow-x: auto; border: 1px solid #eee; margin-top: 1rem; }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
         th { background: #fafbff; padding: 1.2rem; text-align: left; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
@@ -136,12 +132,12 @@
             <form id="estudianteForm">
                 <div class="form-grid">
                     <div class="input-group col-30">
-                        <label>Identificación</label>
-                        <input type="text" id="cedula" placeholder="Cédula" required>
+                        <label>Identificación (10 dígitos)</label>
+                        <input type="text" id="cedula" placeholder="Ej: 1726354412" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="10">
                     </div>
                     <div class="input-group col-40">
                         <label>Nombres Completos</label>
-                        <input type="text" id="nombre" placeholder="Apellidos y Nombres" required>
+                        <input type="text" id="nombre" placeholder="Apellidos y Nombres" required oninput="this.value = this.value.replace(/[0-9]/g, '')">
                     </div>
                     <div class="input-group col-30">
                         <label>Edad</label>
@@ -153,7 +149,7 @@
                     </div>
                     <div class="input-group col-40">
                         <label>Programa Académico</label>
-                        <input type="text" id="carrera" placeholder="Ej: Desarrollo de Software" required>
+                        <input type="text" id="carrera" placeholder="Ej: Desarrollo de Software" required oninput="this.value = this.value.replace(/[0-9]/g, '')">
                     </div>
 
                     <div class="col-full">
@@ -189,86 +185,70 @@
 
 <script>
     const url = "http://localhost:8080/api/estudiantes";
+    const getVal = id => document.getElementById(id).value;
     let editandoId = null;
 
     async function cargarEstudiantes() {
         try {
             const res = await fetch(url);
             const datos = await res.json();
-            const tabla = document.getElementById("listaCuerpo");
-            tabla.innerHTML = "";
-            datos.forEach(est => {
-                tabla.innerHTML += `
-                    <tr>
-                        <td style="font-weight:700;">${est.cedula}</td>
-                        <td>${est.nombre}</td>
-                        <td><span class="badge">${est.carrera}</span></td>
-                        <td><small>${est.email}</small></td>
-                        <td>${est.edad} años</td>
-                        <td>
-                            <button onclick='prepararEdicion(${JSON.stringify(est)})' class="btn-action btn-edit"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="borrarEstudiante(${est.id})" class="btn-action btn-delete"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>`;
-            });
-        } catch (e) { console.error("API desconectada"); }
+            document.getElementById("listaCuerpo").innerHTML = datos.map(est => `
+                <tr>
+                    <td style="font-weight:700;">${est.cedula}</td>
+                    <td>${est.nombre}</td>
+                    <td><span class="badge">${est.carrera}</span></td>
+                    <td><small>${est.email}</small></td>
+                    <td>${est.edad} años</td>
+                    <td>
+                        <button onclick='prepararEdicion(${JSON.stringify(est)})' class="btn-action btn-edit"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="borrarEstudiante(${est.id})" class="btn-action btn-delete"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`).join('');
+        } catch (e) { console.log("API desconectada"); }
     }
 
     function prepararEdicion(est) {
-        document.getElementById("cedula").value = est.cedula;
-        document.getElementById("nombre").value = est.nombre;
-        document.getElementById("email").value = est.email;
-        document.getElementById("carrera").value = est.carrera;
-        document.getElementById("edad").value = est.edad;
-
+        ['cedula','nombre','email','carrera','edad'].forEach(k => document.getElementById(k).value = est[k]);
         editandoId = est.id;
-
         const btn = document.getElementById("btnGuardar");
         btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Actualizar Información`;
-        btn.style.backgroundColor = "#f39c12"; // Naranja vibrante
+        btn.style.backgroundColor = "#f39c12";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    document.getElementById("btnGuardar").addEventListener("click", async function() {
+    document.getElementById("btnGuardar").onclick = async () => {
         const datos = {
-            cedula: document.getElementById("cedula").value,
-            nombre: document.getElementById("nombre").value,
-            email: document.getElementById("email").value,
-            carrera: document.getElementById("carrera").value,
-            edad: parseInt(document.getElementById("edad").value)
+            cedula: getVal('cedula'),
+            nombre: getVal('nombre'),
+            email: getVal('email'),
+            carrera: getVal('carrera'),
+            edad: parseInt(getVal('edad'))
         };
 
-        if(!datos.nombre || !datos.cedula) return Swal.fire('Error', 'Completa los campos', 'error');
+        if(!datos.nombre || !datos.cedula) return Swal.fire('Error', 'Completa los campos obligatorios', 'error');
+        if(datos.cedula.length !== 10) return Swal.fire('Cédula incompleta', 'Debe tener exactamente 10 dígitos', 'warning');
 
-        const metodo = editandoId ? 'PUT' : 'POST';
-        const urlFinal = editandoId ? `${url}/${editandoId}` : url;
-
-        const res = await fetch(urlFinal, {
-            method: metodo,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
-        });
-
-        if(res.ok) {
-            Swal.fire('¡Éxito!', editandoId ? 'Datos actualizados' : 'Estudiante registrado', 'success');
-            resetearFormulario();
-            cargarEstudiantes();
-        }
-    });
+        try {
+            const res = await fetch(editandoId ? `${url}/${editandoId}` : url, {
+                method: editandoId ? 'PUT' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            });
+            const r = await res.json();
+            if(res.ok) {
+                Swal.fire('¡Éxito!', editandoId ? 'Datos actualizados' : 'Estudiante registrado', 'success');
+                resetearFormulario();
+                cargarEstudiantes();
+            } else {
+                Swal.fire('Validación Fallida', r.mensaje || r.email || r.nombre || r.carrera || r.edad || 'Error en los datos', 'error');
+            }
+        } catch (e) { Swal.fire('Error', 'Sin conexión con el servidor', 'error'); }
+    };
 
     async function borrarEstudiante(id) {
-        const result = await Swal.fire({
-            title: '¿Eliminar registro?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ff7675',
-            confirmButtonText: 'Sí, borrar'
-        });
-
-        if (result.isConfirmed) {
-            await fetch(`${url}/${id}`, { method: 'DELETE' });
-            cargarEstudiantes();
-            Swal.fire('Borrado', '', 'success');
+        if ((await Swal.fire({title: '¿Eliminar registro?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#ff7675', confirmButtonText: 'Sí, borrar'})).isConfirmed) {
+            const res = await fetch(`${url}/${id}`, { method: 'DELETE' });
+            if(res.ok) { cargarEstudiantes(); Swal.fire('Borrado', 'Registro eliminado', 'success'); }
         }
     }
 
