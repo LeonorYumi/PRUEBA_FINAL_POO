@@ -137,6 +137,7 @@ El proyecto ha sido empaquetado usando Docker y desplegado en la plataforma Rend
 
 URL del Proyecto: https://prueba-final-poo.onrender.com/ 
 
-Nota para el revisor: La aplicación utiliza una base de datos H2 en memoria y el plan gratuito de Render. 
+Nota: La aplicación utiliza una base de datos H2 en memoria y el plan gratuito de Render. 
 
-Si el enlace tarda en cargar, por favor espere aproximadamente 1 minuto mientras el contenedor se inicia (Cold Start). Los datos iniciales se cargan automáticamente desde el archivo data.sql.
+Si el enlace tarda en cargar, por favor espere aproximadamente 5 minutos mientras el contenedor se inicia (Cold Start). Los datos iniciales se cargan automáticamente desde el archivo data.sql.
+
