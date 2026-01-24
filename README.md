@@ -129,3 +129,14 @@ Se aplican las siguientes restricciones en la entidad Estudiante:
 Acceda desde su navegador a: http://localhost:8080/index.html 
 
 Consola H2: Administre la base de datos directamente en: http://localhost:8080/h2-console
+
+---
+
+## Despliegue (Cloud Deployment)
+El proyecto ha sido empaquetado usando Docker y desplegado en la plataforma Render.
+
+URL del Proyecto: https://prueba-final-poo.onrender.com/ 
+
+Nota para el revisor: La aplicación utiliza una base de datos H2 en memoria y el plan gratuito de Render. 
+
+Si el enlace tarda en cargar, por favor espere aproximadamente 1 minuto mientras el contenedor se inicia (Cold Start). Los datos iniciales se cargan automáticamente desde el archivo data.sql.
