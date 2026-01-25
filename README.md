@@ -21,7 +21,7 @@ Asignatura: Programación Orientada a Objetos
 
 Para el desarrollo se utilizaron las siguientes tecnologías:
 
-**Lenguaje:** Java 17
+**Lenguaje:** Java 21
 
 **Framework:** Spring Boot 3.2.5
 
@@ -140,4 +140,5 @@ URL del Proyecto: https://prueba-final-poo.onrender.com/
 Nota: La aplicación utiliza una base de datos H2 en memoria y el plan gratuito de Render. 
 
 Si el enlace tarda en cargar, por favor espere aproximadamente 5 minutos mientras el contenedor se inicia (Cold Start). Los datos iniciales se cargan automáticamente desde el archivo data.sql.
+
 
